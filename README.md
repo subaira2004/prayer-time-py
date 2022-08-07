@@ -13,3 +13,4 @@ This is desktop application written in Python3 using PyQt6 framework to show the
 3. pyQt6
 4. request
 5. beautifulsoup4
+6. Pyinstaller
