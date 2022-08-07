@@ -1,6 +1,4 @@
 
-
-from typing import List
 from PyQt6.QtWidgets import *
 from PyQt6.QtGui import QIcon, QPixmap, QFont, QAction, QColor
 from PyQt6.QtCore import Qt, QTimer
@@ -9,7 +7,6 @@ import os
 import datetime
 import requests
 from bs4 import BeautifulSoup
-from sympy import false, true
 
 
 curPath = os.path.dirname(os.path.realpath(__file__))
