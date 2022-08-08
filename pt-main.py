@@ -1,4 +1,3 @@
-
 from PyQt6.QtWidgets import *
 from PyQt6.QtGui import QIcon, QPixmap, QFont, QAction, QColor
 from PyQt6.QtCore import Qt, QTimer
@@ -41,7 +40,7 @@ class PrayerTimeMain():
                 prayerName.setFlags(Qt.ItemFlag.ItemIsEnabled)
                 prayerName.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
 
-                prayerTime = QTableWidgetItem(prayerInfo.prayerTime)
+                prayerTime = QTableWidgetItem(prayerInfo.prayerTimeDisp)
                 prayerTime.setFont(QFont("verdana",11,900,False))
                 prayerTime.setFlags(Qt.ItemFlag.ItemIsEnabled)
                 prayerTime.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -80,13 +79,13 @@ class PrayerTimeMain():
         app.setWindowIcon(QIcon(QPixmap(curPath+'\images\pt-icon.png')))
 
         self.w = QWidget()
-        self.w.setMouseTracking(True)
+        #self.w.setMouseTracking(True)
         #self.w.mouseMoveEvent()
-        self.w.removeAction(QAction('close'))
+        #self.w.removeAction(QAction('close'))
         self.w.resize(300, 210)
         self.w.move(300, 300)
 
-        self.w.setWindowFlag(Qt.WindowType.SplashScreen)
+        self.w.setWindowFlag(Qt.WindowType.CoverWindow)
         self.w.setWindowIcon(QIcon(QPixmap(curPath+'\images\pt-icon.png')))
         self.w.setStyleSheet("background-color:#ffffff")
 
@@ -103,9 +102,9 @@ class PrayerTimeMain():
         wcLabel.setFont(QFont('verdana', 12, 900, False))
         hLayout.addWidget(wcLabel)
 
-        self.wcMovable = QCheckBox("")
+        #self.wcMovable = QCheckBox("")
         #self.wcMovable.stateChanged.connect(self.changeWindowTitle)
-        hLayout.addWidget(self.wcMovable)
+        #hLayout.addWidget(self.wcMovable)
 
         self.prayerTable = QTableWidget()
         self.prayerTable.verticalHeader().setVisible(False)
@@ -131,6 +130,15 @@ class PrayerTimeMain():
             super().__init__()
             self.prayerName = prayerName
             self.prayerTime = prayerTime
+            tmpPrayerHour = int(self.prayerTime.split(':')[0])
+            tmpPrayerMinute = int(self.prayerTime.split(':')[1])
+            tmpAmPm = "AM"
+            if tmpPrayerHour >= 12:
+                tmpAmPm = "PM"
+                tmpPrayerHour = 12 if tmpPrayerHour == 12 else tmpPrayerHour-12
+            hourZero = "0" if tmpPrayerHour<10 else ""
+            MinuteZero = "0" if tmpPrayerMinute<10 else ""
+            self.prayerTimeDisp = str.format("{3}{0}:{4}{1} {2}",tmpPrayerHour,tmpPrayerMinute,tmpAmPm,hourZero,MinuteZero)
 
     def collectPrayerTime(self):
         if (self.prayerTimeCollectedOn != None and self.prayerTimeCollectedOn.strftime("%d%h%Y") == datetime.datetime.now().strftime("%d%h%Y")):
@@ -152,9 +160,9 @@ class PrayerTimeMain():
             "Isha", soup.select_one("#nav_pt_calculate_isha").string))
         return True
 
-    def mouseMoveEvent(self, event):
-        if(self.wcMovable.isChecked()):
-            self.w.move(event.x(), event.y())
+    #def mouseMoveEvent(self, event):
+    #   if(self.wcMovable.isChecked()):
+    #       self.w.move(event.x(), event.y())
 
 if __name__ =='__main__':
     # intializing the App Main window
